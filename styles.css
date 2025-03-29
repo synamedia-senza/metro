@@ -1,0 +1,47 @@
+@font-face {
+  font-family: 'Helvetica Neue Bold';
+  src: url('fonts/HelveticaNeueBold.otf') format('opentype');
+}
+        
+body {
+  width: 1920px;
+  height: 1080px;
+	margin: 0px;
+	background-color: black;
+  overflow: hidden;
+
+	font: 80pt 'Helvetica Neue Bold';
+  color: white;
+}
+
+.background {
+  position: fixed;
+}
+
+.items {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  width: 1660px;
+  min-height: 840px;
+  padding: 20px 40px 20px 20px;
+  background-color: rgba(45, 30, 25, 0.6);
+  border-radius: 50px;
+  line-height: 130%;
+  margin-bottom: 100px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+a.selected {
+  color: #FFEA00;
+}
+
+.dot {
+  width: 80px;
+  height: 80px;
+  padding: 0px 20px 0px 20px;
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<title>Metro</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <img class="background" src="images/background.jpg">
+	<div class="items" id="list"></div>
+</body>
+<script src="typeahead.js"></script>
+<script>
+  let line = getParam("line", "RD");
+
+  update();
+
+  async function update() {
+    let response = await fetch(`data/${line}.json`);
+    let data = await response.json();
+    let stations = data["Stations"];
+    list.innerHTML = stations.map(station => `<img src="images/${line}.png" class="dot">` + 
+      `<a href="station.html?line=${line}&station=${station.Code}">${station.Name}</a>`).join('<br>');
+    let selected = stations.find(station => station.Selected);
+    if (selected) selectLinkByName(selected.Name);
+  }
+  
+  function getParam(name, defaultValue = null) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.has(name) ? urlParams.get(name) : defaultValue;
+  }
+</script>
+</html>

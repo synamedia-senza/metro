@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+ 	<title>Metro</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <img class="background" src="images/background.jpg">
+	<div class="items" id="list">
+    
+	</div>
+</body>
+<script src="config.js"></script>
+<script>
+  const line = getParam("line", "RD");
+  const stationCode = getParam("station", "A09");
+  const names = {
+    "Shady Grv": "Shady Grove",
+    "N Carrollton": "New Carrollton",
+    "NewCrlton": "New Carrollton",
+    "Vienna/Fairfax-GMU": "Vienna/Fairfax",
+    "Branch Av": "Branch Ave",
+    "MtVern Sq": "Mt Vernon Sq",
+    "Mt Vern Sq": "Mt Vernon Sq"
+  };
+
+  update();
+  setInterval(update, 15000);
+  
+  async function update() {
+    let url = 'https://api.wmata.com/StationPrediction.svc/json/GetPrediction/' + stationCode;
+    let response = await fetch(url, {headers});
+    let data = await response.json();
+    let trains = data["Trains"];
+    list.innerHTML = trains.map(train => {
+      let name = names[train.DestinationName] || train.DestinationName;
+      if (name == "No Passenger") return;
+      let code = train.DestinationCode;
+      return `<span style="float: right">${train.Min}</span>` +
+        `<img src="images/${train.Line}.png" class="dot">` +
+        `<a href="${code ? `station.html?line=${train.Line}&station=${code}` : ""}">${name}</a><br>`;
+    }).join("");
+  }
+  
+  function getParam(name, defaultValue = null) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.has(name) ? urlParams.get(name) : defaultValue;
+  }
+</script>
+<script src="typeahead.js"></script>
+</html>
